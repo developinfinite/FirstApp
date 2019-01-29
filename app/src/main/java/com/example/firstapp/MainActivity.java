@@ -3,8 +3,11 @@ package com.example.firstapp;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +21,7 @@ import android.widget.Toast;
 */
 public class MainActivity extends AppCompatActivity {
 
-    Button btnOnOff;
+    Button btnOnOff, btnNext;
     TextView labelTextView;
     BluetoothAdapter mBlueToothAdapter;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         labelTextView = (TextView) findViewById(R.id.textView);
         btnOnOff = (Button) findViewById(R.id.buttonOnOff);
+        btnNext = (Button) findViewById(R.id.buttonNext);
 
 
         IntentFilter btFilter = new IntentFilter(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -41,6 +45,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         toggleBTButtonColor();
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent btMaster = new Intent(MainActivity.this, BTMaster.class);
+                startActivity(btMaster);
+
+
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().
+//                        replace(R.id.container, new BTMasterFragment1())
+//                        .commit();
+            }
+        });
     }
 
 
@@ -85,6 +103,16 @@ public class MainActivity extends AppCompatActivity {
 
         mBlueToothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBlueToothAdapter == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Not compatible")
+                    .setMessage("Your phone does not support Bluetooth")
+                    .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
             return;
         }
 
