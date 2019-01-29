@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+#CODE WRITTEN BY SANDEEP MEHTA
+*/
 public class MainActivity extends AppCompatActivity {
 
     Button btnOnOff;
